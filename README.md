@@ -9,12 +9,12 @@ de generar el reporte mas adecuado, para este caso determinado.
 
 🧳tabla incial
 
-|----variable----------|--------descripcion-------------------------|
-| Student_ID           | numero de estudiante unico                 |
-| Age                  | edad de cada estudiante                    |
-| Gender               | genero de cada estudiante                  |
-| Family_Income        | ingreso por familia de cada estudiante     |
-| Internet_Access      | acceso a internet por estudiante           |
-| Study_Per_Hours_Day  | horas de estudio por dia de cada estudiante|
-| Attendance_Rate      | ratio de atencion por cada estudiante      |
-| Assignment_Delay_Days|
+ |----variable----------|--------descripcion-------------------------|
+ | Student_ID           | numero de estudiante unico                 |
+ | Age                  | edad de cada estudiante                    |
+ | Gender               | genero de cada estudiante                  |
+ | Family_Income        | ingreso por familia de cada estudiante     |
+ | Internet_Access      | acceso a internet por estudiante           |
+ | Study_Per_Hours_Day  | horas de estudio por dia de cada estudiante|
+ | Attendance_Rate      | ratio de atencion por cada estudiante      |
+ | Assignment_Delay_Days|
