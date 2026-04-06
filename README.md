@@ -17,4 +17,5 @@ de generar el reporte mas adecuado, para este caso determinado.
  | Internet_Access      | acceso a internet por estudiante           |
  | Study_Per_Hours_Day  | horas de estudio por dia de cada estudiante|
  | Attendance_Rate      | ratio de atencion por cada estudiante      |
- | Assignment_Delay_Days|
+ | Assignment_Delay_Days| dias de retraso por estudiante             |
+ | Travel_Time_Minutes  |
