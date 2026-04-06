@@ -6,6 +6,7 @@ a los estudiantes al abandono de sus estudio.
 A través de consultas estructuradas, reportes agregados y métricas clave, 
 se busca la parametrizacion de estas variables alcabo de 5 años con el fin,
 de generar el reporte mas adecuado, para una institución
+
 🧳tabla incial
 
 | Variable              | Descripción                          |
