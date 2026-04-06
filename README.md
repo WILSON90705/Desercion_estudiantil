@@ -1,4 +1,5 @@
 📌 descripcion
+
 Este proyecto es un analisis de 9500 estudiantes, en donde se
 transforma y analiza datos académicos con el objetivo de detectar, las variables que mas llevan 
 a los estudiantes al abandono de sus estudio. 
