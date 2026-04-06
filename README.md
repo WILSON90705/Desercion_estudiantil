@@ -9,13 +9,14 @@ de generar el reporte mas adecuado, para este caso determinado.
 
 🧳tabla incial
 
- |----variable----------|--------descripcion-------------------------|
- | Student_ID           | numero de estudiante unico                 |
- | Age                  | edad de cada estudiante                    |
- | Gender               | genero de cada estudiante                  |
- | Family_Income        | ingreso por familia de cada estudiante     |
- | Internet_Access      | acceso a internet por estudiante           |
- | Study_Per_Hours_Day  | horas de estudio por dia de cada estudiante|
- | Attendance_Rate      | ratio de atencion por cada estudiante      |
- | Assignment_Delay_Days| dias de retraso por estudiante             |
- | Travel_Time_Minutes  |
+| Variable              | Descripción                          |
+|-----------------------|--------------------------------------|
+| Student_ID            | Número de estudiante único           |
+| Age                   | Edad de cada estudiante              |
+| Gender                | Género de cada estudiante            |
+| Family_Income         | Ingreso familiar de cada estudiante  |
+| Internet_Access       | Acceso a internet por estudiante     |
+| Study_Hours_Per_Day   | Horas de estudio por día             |
+| Attendance_Rate       | Ratio de asistencia por estudiante   |
+| Assignment_Delay_Days | Días de retraso por estudiante       |
+| Travel_Time_Minutes   | Tiempo de viaje en minutos           |
