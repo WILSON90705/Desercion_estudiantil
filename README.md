@@ -30,8 +30,5 @@ de generar el reporte mas adecuado, para una institución
 | Scholarship           | acceso a beca                        |
 | Stress_Index          | indice de estrés                     |
 | GPA                   | promedio general acumulado           |
-| Semester_GPA          | promedio semestral                   |
-| CGPA                  | promedio total de toda la carrera    |
-| Semester              | numero de semestre actual            |
-|
+
 
