@@ -20,6 +20,12 @@ de generar el reporte mas adecuado, para una institución
 | Attendance_Rate       | Ratio de asistencia                  |
 | Assignment_Delay_Days | Días de retraso por estudiante       |
 | Travel_Time_Minutes   | Tiempo de viaje en minutos           |
+| Semester_GPA          | Promedio del semestre actual         |
+| CGPA                  | promedio total de toda la carrera    |
+| Semester              | numero de semestre                   |
+| Department            | carrera de cada estudiante           |
+| Parental_Education    | eduacion de los padres               |
+| Dropout               | booleano (0) no abandanó (1) abandono| 
 | Part_Time_job         | trabajo a tiempo parcial             |
 | Scholarship           | acceso a beca                        |
 | Stress_Index          | indice de estrés                     |
