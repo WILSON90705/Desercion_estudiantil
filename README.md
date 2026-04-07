@@ -26,4 +26,5 @@ de generar el reporte mas adecuado, para una institución
 | GPA                   | promedio general acumulado           |
 | Semester_GPA          | promedio semestral                   |
 | CGPA                  | promedio total de toda la carrera    |
+| 
 
