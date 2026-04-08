@@ -1,3 +1,17 @@
+"""
+==============================================
+ANÁLISIS EXPLORATORIO DE DATOS (EDA)
+Proyecto: Deserción Estudiantil
+Autor: Wilson
+Fecha: 2024
+==============================================
+
+Descripción:
+    Este script realiza el análisis exploratorio
+    del dataset de deserción estudiantil, incluyendo
+    limpieza, visualización y análisis estadístico.
+"""
+
 #modelo Eda
 import pandas as pd
 import mysql.connector
@@ -43,3 +57,25 @@ miss = miss[miss > 0]
 print("Target Distribution:")
 print(df["Dropout"].value_counts())
 print(f"\nDropout rate: {df['Dropout'].mean():.1%}")
+
+print(  )
+
+print(df.columns)
+
+print( )
+
+#visualizacion de distribucion de porcewntaje de abandonp
+df["Dropout"] = df["Dropout"].astype(int)
+# Visualize class distribution
+plt.figure(figsize=(6, 4))
+sns.countplot(x="Dropout", data=df, palette="Set3")
+plt.title("Distribution of Dropout")
+plt.xlabel("Dropout")
+plt.ylabel("Count")
+plt.xticks([0, 1], ["No Dropout", "Dropout"])
+plt.show()
+
+print( )    
+
+corr_matrix = df[['Age','Family_Income','Study_Hours_per_Day'
+                  ,'Attendance_Rate','Assignment_Delay_Days','Travel_Time_Minutes','GPA']].corr()
