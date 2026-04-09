@@ -17,14 +17,19 @@ import pandas as pd
 import mysql.connector
 import matplotlib.pyplot as plt
 import seaborn as sns
+from matplotlib import pyplot as plt
+import sweetviz as sv
 
+from dotenv import load_dotenv
+import os
 
+load_dotenv("C:/Users/wilso/Desktop/x/x/python/analisis de datos/tablas 2/variables.env")
 
 conexion = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="WILSONTARRIFA1234",
-    database="estudiantes"
+    host=os.getenv("DB_HOST"),
+    user=os.getenv("DB_USER"),
+    password=os.getenv("DB_PASSWORD"),
+    database=os.getenv("DB_NAME")
 )
 
 # Desactivar el modo estricto en esta sesión
@@ -68,7 +73,7 @@ print( )
 df["Dropout"] = df["Dropout"].astype(int)
 # Visualize class distribution
 plt.figure(figsize=(6, 4))
-sns.countplot(x="Dropout", data=df, palette="Set3")
+sns.countplot(x="Dropout", data=df, hue="Dropout", palette="Set3", legend=False)
 plt.title("Distribution of Dropout")
 plt.xlabel("Dropout")
 plt.ylabel("Count")
@@ -79,3 +84,50 @@ print( )
 
 corr_matrix = df[['Age','Family_Income','Study_Hours_per_Day'
                   ,'Attendance_Rate','Assignment_Delay_Days','Travel_Time_Minutes','GPA']].corr()
+
+plt.figure(figsize=(10, 8))
+sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', linewidths=0.5)
+plt.title('Correlation Matrix')
+plt.show()
+
+print( )
+
+
+#for column in df.columns:
+#    if df[column].dtype == 'object':
+#        plt.figure(figsize=(8, 4))
+#        sns.countplot(x=column, data=df, palette="Set2")
+#        plt.title(f'Distribution of {column}')
+#        plt.xticks(rotation=45)
+#        plt.show()
+
+
+for column in ['Age', 'Family_Income']:
+    plt.figure(figsize=(8, 4))
+    sns.histplot(df[column], kde=True, color='blue')
+    plt.title(f'Distribution of {column}')
+    plt.xlabel(column)
+    plt.ylabel('Frequency')
+    plt.show()
+
+
+#for column in ['Study_Hours_per_Day', 'Attendance_Rate', 'Assignment_Delay_Days', 'Travel_Time_Minutes']:
+#    plt.figure(figsize=(8, 4))
+#    sns.histplot(df[column], kde=True, color='green')
+#    plt.title(f'Distribution of {column}')
+#    plt.xlabel(column)
+#    plt.ylabel('Frequency')
+#    plt.show()
+
+#for column in ['GPA']:
+#    plt.figure(figsize=(8, 4))
+#    sns.histplot(df[column], kde=True, color='red')
+#    plt.title(f'Distribution of {column}')
+#    plt.xlabel(column)
+#    plt.ylabel('Frequency')
+#    plt.show()
+
+print( )
+
+report = sv.analyze(df)
+report.show_html('Student_Dropout_Report.html')
