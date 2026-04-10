@@ -1,28 +1,28 @@
-"""
-==============================================
-ANÁLISIS EXPLORATORIO DE DATOS (EDA)
-Proyecto: Deserción Estudiantil
-Autor: Wilson
-Fecha: 2024
-==============================================
-
-Descripción:
-    Este script realiza el análisis exploratorio
-    del dataset de deserción estudiantil, incluyendo
-    limpieza, visualización y análisis estadístico.
-"""
-
-#modelo Eda
 import pandas as pd
 import mysql.connector
 import matplotlib.pyplot as plt
 import seaborn as sns
 from matplotlib import pyplot as plt
 import sweetviz as sv
-
 from dotenv import load_dotenv
 import os
+from sklearn.preprocessing import OrdinalEncoder,OneHotEncoder , StandardScaler , MinMaxScaler
+from sklearn.compose import ColumnTransformer
+from sklearn.model_selection import train_test_split
+from sklearn.impute import SimpleImputer
+from sklearn import set_config
+from sklearn.utils import estimator_html_repr
+import webbrowser
+from sklearn.pipeline import Pipeline
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score,confusion_matrix,classification_report
 
+"""
+cargar variables de entorno para la conexion a la base de datos
+"""
 load_dotenv("C:/Users/wilso/Desktop/x/x/python/analisis de datos/tablas 2/variables.env")
 
 conexion = mysql.connector.connect(
@@ -33,7 +33,6 @@ conexion = mysql.connector.connect(
 )
 
 # Desactivar el modo estricto en esta sesión
-
 cursor = conexion.cursor()
 cursor.execute("SET SESSION sql_mode = sys.list_drop(@@SESSION.sql_mode, 'ONLY_FULL_GROUP_BY')")
 df = pd.read_sql("SELECT * FROM students1", con=conexion)
@@ -101,6 +100,7 @@ print( )
 #        plt.xticks(rotation=45)
 #        plt.show()
 
+# Visualización de variables numéricas Age vs Family_Income
 
 for column in ['Age', 'Family_Income']:
     plt.figure(figsize=(8, 4))
@@ -128,6 +128,121 @@ for column in ['Age', 'Family_Income']:
 #    plt.show()
 
 print( )
-
+#muestreo de datos por sweetviz como segundo dashboard de analisis de datos
 report = sv.analyze(df)
 report.show_html('Student_Dropout_Report.html')
+
+print( )
+
+"""
+seleccion y extracion de variables
+"""
+dfA = df.drop(columns=['Student_ID','GPA', 'Semester_GPA'])
+print(dfA.shape)
+
+print( )
+
+print(dfA.head())
+
+print( )
+
+#departamentos unicos a que intervienen
+print(dfA['Department'].unique())
+
+#convirtiendo todos los datos para que el ML pueda procesarlos
+oe = OrdinalEncoder()
+ohe = OneHotEncoder(sparse_output=False , drop='first')
+
+print(dfA.sample(2))
+
+print( )
+
+print(dfA['Department'].isna().sum())
+
+print( )
+
+dfA['Semester'] = dfA['Semester'].str.split(expand=True)[1]
+dfA['Semester'] = dfA['Semester'].astype(int)
+
+print(dfA['Semester'].sample(2))
+
+X = dfA.drop(columns=['Dropout'])
+y = dfA['Dropout']
+
+print(X.sample(2))
+print( )
+print(y.sample(2))
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+print(X_train.shape)
+print(X_test.shape)
+print(y_train.shape)
+print(y_test.shape)
+
+"""
+creacion de columnas transformadas para su preprocesamiento
+"""
+set_config(display='diagram')
+
+si_trf = ColumnTransformer([
+    ('si_age', SimpleImputer(), ['Age']),
+    ('si_family_income', SimpleImputer(), ['Family_Income']),
+    ('si_study_hours', SimpleImputer(), ['Study_Hours_per_Day']),
+    ('si_cgpa', SimpleImputer(), ['CGPA']),
+    ('si_stress_index', SimpleImputer(), ['Stress_Index']),
+    ('si_parental_education', SimpleImputer(strategy='most_frequent'), ['Parental_Education']),
+    ('enc_ohe', OneHotEncoder(sparse_output=False, drop='first'), ['Gender', 'Internet_Access', 'Part_Time_Job', 'Scholarship', 'Department']),
+], remainder='passthrough')
+
+si_trf.set_output(transform="pandas")
+
+si_trf
+
+with open("diagrama.html", "w", encoding="utf-8") as f:
+    f.write(estimator_html_repr(si_trf))
+
+webbrowser.open("diagrama.html")
+
+
+enc_trf = ColumnTransformer([
+     ('enc_oe',oe,['si_parental_education__Parental_Education'])
+],remainder='passthrough')
+enc_trf.set_output(transform="pandas")
+
+with open("diagrama2.html", "w", encoding="utf-8") as f:
+    f.write(estimator_html_repr(enc_trf))
+
+webbrowser.open("diagrama2.html")
+
+"""
+Creación de transformadores de columna para escalado
+"""
+
+scale_trf = ColumnTransformer([
+    ('scaler',StandardScaler(), slice(0,19))
+])
+
+pipe = Pipeline([
+     ('si_trf',si_trf),
+     ('enc_trf',enc_trf),
+    ('scale_trf',scale_trf),
+    ('model',LogisticRegression()) # Added a solver for good practice
+     #('model',DecisionTreeClassifier(max_depth=10))
+     #('model',SVC(kernel='linear'))
+     #('model',RandomForestClassifier())
+])
+
+pipe.fit(X_train,y_train)
+
+with open("diagrama3.html", "w", encoding="utf-8") as f:
+    f.write(estimator_html_repr(pipe))
+
+webbrowser.open("diagrama3.html")
+
+y_pred = pipe.predict(X_test)
+
+
+print("Accuracy:", accuracy_score(y_test, y_pred))
+print("\nConfusion Matrix:\n", confusion_matrix(y_test, y_pred))
+print("\nClassification Report:\n", classification_report(y_test, y_pred))
